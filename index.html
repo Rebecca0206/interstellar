@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Interstellar — live sky viewer</title>
+<meta name="description" content="Point your phone at the sky: live planets, stars, constellations, deep-sky objects and satellites.">
+<meta name="theme-color" content="#05070f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Interstellar">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+  <video id="cam" playsinline muted autoplay></video>
+  <canvas id="sky"></canvas>
+  <div id="crosshair"><i></i></div>
+
+  <header id="top">
+    <div class="row">
+      <div class="brand"><img src="icons/icon.svg" alt=""><span>Interstellar</span></div>
+      <button id="live" class="pill live" aria-label="Time"><span class="dot"></span><span id="liveText">LIVE</span></button>
+      <button id="btnTonight" class="icon-btn" aria-label="Tonight"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/><path d="M17 3v4M15 5h4"/></svg></button>
+      <button id="btnSearch" class="icon-btn" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg></button>
+      <button id="btnMenu" class="icon-btn" aria-label="Layers &amp; settings"><svg viewBox="0 0 24 24"><path d="M12 3 2 8l10 5 10-5-10-5Z"/><path d="m2 13 10 5 10-5"/></svg></button>
+    </div>
+    <div id="status" class="status"></div>
+  </header>
+
+  <div id="guide" class="guide hidden"><span id="guideText"></span><button id="guideClose" aria-label="Stop guiding">✕</button></div>
+
+  <div id="bottom">
+    <div id="card" class="card hidden"></div>
+    <div id="timebar" class="timebar hidden">
+      <div class="trow"><button class="tbtn" data-dt="-60">−1h</button><input id="tslider" type="range" min="-1440" max="1440" step="5" value="0"><button class="tbtn" data-dt="60">+1h</button></div>
+      <div class="trow"><button class="tbtn" data-dd="-1">−1 day</button><span id="tlabel"></span><button class="tbtn" data-dd="1">+1 day</button><button id="tnow" class="btn small">Now</button></div>
+    </div>
+    <nav id="chips" class="chips">
+      <button id="chipTime" class="chip">⏱ Time</button>
+      <button data-layer="constellations" class="chip on">Constellations</button>
+      <button data-layer="stars" class="chip on">Stars</button>
+      <button data-layer="planets" class="chip on">Planets</button>
+      <button data-layer="dso" class="chip on">Deep sky</button>
+      <button data-layer="sats" class="chip on">Satellites</button>
+      <button data-layer="milkyway" class="chip on">Milky Way</button>
+    </nav>
+  </div>
+
+  <section id="detail" class="sheet hidden" aria-label="Details"></section>
+
+  <section id="tonight" class="sheet hidden" aria-label="Tonight"><div class="grab"></div><div id="tonightBody"></div></section>
+
+  <section id="sheet" class="sheet hidden" aria-label="Settings">
+    <div class="grab"></div>
+    <h3>Display</h3>
+    <div class="toggles">
+      <label><input type="checkbox" id="optNight"> Night vision (red) mode</label>
+      <label><input type="checkbox" id="optTwinkle" checked> Star twinkle</label>
+      <label><input type="checkbox" id="optMetric"> Metric units (km, km/h)</label>
+      <label><input type="checkbox" id="optCamera"> Camera background</label>
+      <label><input type="checkbox" id="optGrid"> Alt/az grid</label>
+    </div>
+    <h3>Satellites</h3>
+    <div id="satGroups" class="chips wrap"></div>
+    <div id="satInfo" class="hint"></div>
+    <h3>View &amp; compass</h3>
+    <label class="slider">Field of view <span id="fovVal"></span><input id="fov" type="range" min="15" max="110" step="1"></label>
+    <label class="slider">Heading correction <span id="hdgVal"></span><input id="hdg" type="range" min="-30" max="30" step="0.5"></label>
+    <div class="toggles"><label><input type="checkbox" id="optDecl" checked> Correct magnetic declination <span id="declVal" class="hint"></span></label></div>
+    <div class="acts"><button id="btnCalib" class="btn">Calibrate compass</button><button id="btnShare" class="btn ghost">Share screenshot</button></div>
+    <h3>Location</h3>
+    <div class="loc"><input id="lat" inputmode="decimal" placeholder="Latitude"><input id="lon" inputmode="decimal" placeholder="Longitude"><button id="locSet" class="btn">Set</button><button id="locGps" class="btn ghost">GPS</button></div>
+    <h3>Help</h3>
+    <div class="acts"><button id="btnTour" class="btn ghost">Show walkthrough</button></div>
+    <p class="hint small">Data: astronomy-engine · HYG v4.1 / d3-celestial · NASA NSSDCA fact sheets · Wikipedia Messier table · AMS meteor calendar · CelesTrak TLE &amp; SATCAT · satellite.js · WMM2025.</p>
+  </section>
+
+  <section id="search" class="sheet hidden" aria-label="Search">
+    <div class="grab"></div>
+    <input id="q" type="search" placeholder="Search planets, stars, constellations, M31, ISS…" autocomplete="off">
+    <ul id="results"></ul>
+  </section>
+
+  <div id="calib" class="overlay modal hidden"><div class="modal-inner" id="calibBody"></div></div>
+
+  <div id="start" class="overlay">
+    <div class="start-inner">
+      <div id="slides"></div>
+      <div id="dots" class="dots"></div>
+      <div id="startBtns">
+        <button id="btnStart" class="btn big">Start sky view</button>
+        <button id="btnNoCam" class="btn ghost">Explore without camera</button>
+      </div>
+      <button id="btnNext" class="btn big hidden">Next</button>
+      <p class="hint small">Uses camera, motion sensors and location on your device only.</p>
+    </div>
+  </div>
+  <div id="toast" class="toast hidden"></div>
+  <div id="night"></div>
+</div>
+<script src="vendor/astronomy.browser.min.js"></script>
+<script src="vendor/satellite.min.js"></script>
+<script src="vendor/magvar.min.js"></script>
+<script src="data/sky-data.js"></script>
+<script src="data/facts.js"></script>
+<script src="js/core.js"></script>
+<script src="js/state.js"></script>
+<script src="js/render.js"></script>
+<script src="js/ui-sheets.js"></script>
+<script src="js/features.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
