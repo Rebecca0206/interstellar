@@ -30,7 +30,7 @@ function init() {
   window.addEventListener('online', () => { Object.keys(satGroups).forEach(g => { if (satGroups[g].source === 'bundled snapshot') delete satGroups[g]; }); refreshSats(); });
   return ready;
 }
-const appReady = init();
+const appReady = window.IS_DESK ? (buildDeskLanding(), new Promise(() => { })) : init();
 
 window.Interstellar = {
   ready: appReady, S, frame: () => frame,

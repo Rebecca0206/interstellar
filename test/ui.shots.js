@@ -7,14 +7,14 @@ const OUT = '/workspace/sky-viewer/screenshots/';
   const p = await ctx.newPage(); const errs = [];
   p.on('pageerror', e => errs.push('pageerror: ' + e.message)); p.on('console', m => { if (m.type() === 'error') errs.push('console: ' + m.text()); });
   // 1) normal (non-demo) load with onboarding to catch runtime errors in the live loop
-  await p.goto('http://127.0.0.1:8080/index.html?fps', { waitUntil: 'networkidle' });
+  await p.goto('http://127.0.0.1:8080/index.html?fps&desktop=1', { waitUntil: 'networkidle' });
   await p.screenshot({ path: OUT + '00-onboarding.png' });
   for (let i = 0; i < 4; i++) await p.click('#btnNext');
   await p.screenshot({ path: OUT + '00b-onboarding-last.png' });
   await p.click('#btnNoCam'); await p.waitForTimeout(2500);
   const fps = await p.evaluate(() => window.__fps);
   // 2) deterministic demo scenes: tonight 9 PM ET, Orlando
-  await p.goto('http://127.0.0.1:8080/index.html?demo=1&nocam=1', { waitUntil: 'networkidle' });
+  await p.goto('http://127.0.0.1:8080/index.html?demo=1&nocam=1&desktop=1', { waitUntil: 'networkidle' });
   const R = (fn, arg) => p.evaluate(fn, arg);
   await R(async () => { const I = Interstellar; await I.ready; I.setTime('2026-10-10T01:00:00Z'); I.setLocation(28.5383, -81.3792, 'Orlando, FL'); I.setView(110, 30); I.setFov(62); I.render(); I.render(); });
   await p.screenshot({ path: OUT + '01-main.png' });

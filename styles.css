@@ -115,3 +115,25 @@ input[type=range]{width:100%;accent-color:#7f8cff}
 .dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.2)}
 .dots i.on{background:#8f9cff;width:20px;border-radius:4px}
 @media (max-width:370px){.brand span{display:none}}
+
+/* ---- desktop landing (phone-only gate) ---- */
+html.desk body > *:not(#desk):not(script) { display: none !important; }
+html.desk body { overflow: auto; }
+#desk { position: fixed; inset: 0; overflow: auto; display: flex; align-items: center; justify-content: center; padding: 40px 20px;
+  background: radial-gradient(ellipse at 50% 20%, rgba(70,85,190,.45), transparent 60%), radial-gradient(ellipse at 80% 90%, rgba(138,92,255,.18), transparent 55%), #05070f;
+  color: #e6edff; font-family: Inter, "SF Pro Text", system-ui, sans-serif; z-index: 100; }
+#desk[hidden] { display: none; }
+#desk::before { content: ""; position: fixed; inset: 0; pointer-events: none; opacity: .55;
+  background-image: radial-gradient(1px 1px at 12% 18%, #fff, transparent), radial-gradient(1px 1px at 72% 12%, #cfe, transparent), radial-gradient(1.5px 1.5px at 40% 70%, #fff, transparent),
+  radial-gradient(1px 1px at 88% 52%, #fff, transparent), radial-gradient(1px 1px at 22% 84%, #dde, transparent), radial-gradient(1.5px 1.5px at 58% 36%, #fff, transparent), radial-gradient(1px 1px at 6% 52%, #fff, transparent); }
+.dk-card { position: relative; max-width: 520px; width: 100%; text-align: center; padding: 40px 36px 32px; border-radius: 28px;
+  background: rgba(16,20,38,.72); border: 1px solid rgba(150,170,255,.18); box-shadow: 0 30px 80px rgba(0,0,0,.55); backdrop-filter: blur(10px); }
+.dk-logo { width: 84px; height: 84px; filter: drop-shadow(0 0 28px rgba(140,160,255,.6)); }
+#desk h1 { margin: 14px 0 6px; font-size: 34px; letter-spacing: .2em; font-weight: 800; background: linear-gradient(90deg,#d7e6ff,#b8a6ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.dk-tag { margin: 0 0 14px; font-size: 20px; font-weight: 700; color: #fff; }
+.dk-lead { margin: 0 auto 22px; color: #aab4d4; font-size: 15px; line-height: 1.55; max-width: 420px; }
+#desk .qr { width: 220px; height: 220px; margin: 0 auto 22px; padding: 12px; background: #fff; border-radius: 18px; box-shadow: 0 0 40px rgba(120,140,255,.35); }
+#desk .qr svg { width: 100%; height: 100%; display: block; }
+.dk-steps { text-align: left; margin: 0 auto 22px; padding-left: 22px; max-width: 400px; color: #c7cfe8; font-size: 14.5px; line-height: 1.7; }
+.dk-steps b { color: #fff; }
+.dk-url { display: inline-block; padding: 11px 22px; border-radius: 24px; background: linear-gradient(135deg,#4d6cff,#8a5cff); color: #fff; font-weight: 700; text-decoration: none; font-size: 15px; }

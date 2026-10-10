@@ -1,6 +1,6 @@
 // Interstellar service worker: offline app shell + data; TLE snapshots network-first.
-const V = 'interstellar-v2';
-const SHELL = ['./', 'index.html', 'styles.css', 'manifest.webmanifest',
+const V = 'interstellar-v3';
+const SHELL = ['./', 'index.html', 'styles.css', 'manifest.webmanifest', 'js/gate.js', 'vendor/qrcode.js',
   'js/core.js', 'js/state.js', 'js/render.js', 'js/ui-sheets.js', 'js/features.js', 'js/app.js',
   'data/sky-data.js', 'data/facts.js',
   'vendor/astronomy.browser.min.js', 'vendor/satellite.min.js', 'vendor/magvar.min.js',
