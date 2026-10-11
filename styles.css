@@ -140,3 +140,4 @@ html.desk body { overflow: auto; }
 
 .dk-legal{margin:18px 0 0;color:#7d88a8;font-size:12.5px;line-height:1.5}
 .about{margin:10px 0 0;opacity:.75;font-size:12.5px}
+.brand span{white-space:nowrap;letter-spacing:.02em;font-size:16px}
