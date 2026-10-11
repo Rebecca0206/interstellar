@@ -1,8 +1,8 @@
 // Headless UI check: loads the app with a fixed time/location, asserts no console errors, saves screenshots.
-const { chromium } = require('/workspace/interstellar/node_modules/playwright');
+const { chromium } = require('/home/box/pwtools/node_modules/playwright');
 const OUT = '/workspace/sky-viewer/screenshots/';
 (async () => {
-  const b = await chromium.launch({ executablePath: process.env.HOME + '/.cache/ms-playwright/chromium-1243/chrome-linux64/chrome' });
+  const b = await chromium.launch();
   const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, geolocation: { latitude: 28.5383, longitude: -81.3792 }, permissions: ['geolocation'] });
   const p = await ctx.newPage(); const errs = [];
   p.on('pageerror', e => errs.push('pageerror: ' + e.message)); p.on('console', m => { if (m.type() === 'error') errs.push('console: ' + m.text()); });

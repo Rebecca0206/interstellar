@@ -31,10 +31,10 @@ async function notify(title, body) {
     if (reg) reg.showNotification(title, { body, icon: 'icons/icon-192.png', badge: 'icons/icon-192.png' }); else new Notification(title, { body, icon: 'icons/icon-192.png' }); } catch (e) { }
 }
 async function toggleNotify() {
-  if (!('Notification' in window)) { toast('Notifications aren’t supported here (on iPhone, add Interstellar to the Home Screen first).'); return; }
+  if (!('Notification' in window)) { toast('Notifications aren’t supported here (on iPhone, add Interstellar Lens to the Home Screen first).'); return; }
   if (!alerts.enabled) { const p = await Notification.requestPermission(); if (p !== 'granted') { toast('Notifications blocked.'); return; } }
   alerts.enabled = !alerts.enabled; store.set('notify', alerts.enabled); alerts.schedule(); renderTonight();
-  toast(alerts.enabled ? 'Alert 5 minutes before each visible pass (while Interstellar is open).' : 'Pass alerts off.');
+  toast(alerts.enabled ? 'Alert 5 minutes before each visible pass (while Interstellar Lens is open).' : 'Pass alerts off.');
 }
 
 /* ---------------- Tonight ---------------- */
@@ -109,10 +109,10 @@ async function shareShot() {
     const c = document.createElement('canvas'); c.width = cv.width; c.height = cv.height; const g = c.getContext('2d'), v = $('#cam');
     if (S.camera && v.videoWidth) { const s = Math.max(c.width / v.videoWidth, c.height / v.videoHeight), w = v.videoWidth * s, h = v.videoHeight * s; g.drawImage(v, (c.width - w) / 2, (c.height - h) / 2, w, h); }
     g.drawImage(cv, 0, 0);
-    g.font = `600 ${14 * S.dpr}px ${FONT}`; g.fillStyle = 'rgba(220,230,255,.85)'; g.fillText(`Interstellar · ${S.locName} · ${now().toLocaleString()}`, 14 * S.dpr, c.height - 16 * S.dpr);
+    g.font = `600 ${14 * S.dpr}px ${FONT}`; g.fillStyle = 'rgba(220,230,255,.85)'; g.fillText(`Interstellar Lens · ${S.locName} · ${now().toLocaleString()}`, 14 * S.dpr, c.height - 16 * S.dpr);
     if (S.night) { g.globalCompositeOperation = 'multiply'; g.fillStyle = '#ff1a00'; g.fillRect(0, 0, c.width, c.height); }
     const blob = await new Promise(r => c.toBlob(r, 'image/png')), file = new File([blob], 'interstellar-sky.png', { type: 'image/png' });
-    if (navigator.canShare && navigator.canShare({ files: [file] })) await navigator.share({ files: [file], title: 'My sky — Interstellar' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) await navigator.share({ files: [file], title: 'My sky — Interstellar Lens' });
     else { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'interstellar-sky.png'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); toast('Screenshot saved.'); }
     haptic(20);
   } catch (e) { if (!e || e.name !== 'AbortError') toast('Could not share the screenshot.'); }
@@ -120,7 +120,7 @@ async function shareShot() {
 
 /* ---------------- onboarding walkthrough ---------------- */
 const SLIDES = [
-  { ill: '<img src="icons/icon.svg" class="logo" alt="">', t: 'Interstellar', p: 'Point your phone at the sky.<br>See what’s really up there — live.' },
+  { ill: '<img src="icons/icon.svg" class="logo" alt="">', t: 'Interstellar Lens', p: 'Point your phone at the sky.<br>See what’s really up there — live.' },
   { ill: '🪐', t: 'Tap anything', p: 'Planets, stars, constellations, galaxies and satellites all open live details: distance, speed in mph, rise and set times.' },
   { ill: '🛰️', t: 'Never miss the ISS', p: 'Tonight’s highlights, visible satellite passes with alerts, and meteor showers live behind the moon button.' },
   { ill: '⏱', t: 'Travel in time', p: 'Scrub the sky forward or back, then tap <b>Now</b>. Red night-vision mode keeps your eyes dark-adapted.' },

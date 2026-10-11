@@ -1,6 +1,6 @@
 {
-  "name": "Interstellar — Live Sky Viewer",
-  "short_name": "Interstellar",
+  "name": "Interstellar Lens",
+  "short_name": "Int. Lens",
   "description": "Point your phone at the sky to see live planets, stars, constellations, deep-sky objects and satellites.",
   "start_url": "./index.html",
   "scope": "./",

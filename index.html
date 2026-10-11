@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<title>Interstellar — live sky viewer</title>
+<title>Interstellar Lens — live sky viewer</title>
 <meta name="description" content="Point your phone at the sky: live planets, stars, constellations, deep-sky objects and satellites.">
 <meta name="theme-color" content="#05070f">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Interstellar">
+<meta name="apple-mobile-web-app-title" content="Interstellar Lens">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -24,7 +24,7 @@
 
   <header id="top">
     <div class="row">
-      <div class="brand"><img src="icons/icon.svg" alt=""><span>Interstellar</span></div>
+      <div class="brand"><img src="icons/icon.svg" alt=""><span>Interstellar Lens</span></div>
       <button id="live" class="pill live" aria-label="Time"><span class="dot"></span><span id="liveText">LIVE</span></button>
       <button id="btnTonight" class="icon-btn" aria-label="Tonight"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/><path d="M17 3v4M15 5h4"/></svg></button>
       <button id="btnSearch" class="icon-btn" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg></button>
@@ -78,6 +78,7 @@
     <div class="loc"><input id="lat" inputmode="decimal" placeholder="Latitude"><input id="lon" inputmode="decimal" placeholder="Longitude"><button id="locSet" class="btn">Set</button><button id="locGps" class="btn ghost">GPS</button></div>
     <h3>Help</h3>
     <div class="acts"><button id="btnTour" class="btn ghost">Show walkthrough</button></div>
+    <p class="hint small about">Interstellar Lens is an independent astronomy app, not affiliated with any film or studio.</p>
     <p class="hint small">Data: astronomy-engine · HYG v4.1 / d3-celestial · NASA NSSDCA fact sheets · Wikipedia Messier table · AMS meteor calendar · CelesTrak TLE &amp; SATCAT · satellite.js · WMM2025.</p>
   </section>
 
@@ -107,9 +108,9 @@
 <section id="desk" hidden aria-label="Open on your phone">
   <div class="dk-card">
     <img class="dk-logo" src="icons/icon.svg" alt="">
-    <h1>INTERSTELLAR</h1>
+    <h1>INTERSTELLAR LENS</h1>
     <p class="dk-tag">Point your phone. Know the sky.</p>
-    <p class="dk-lead">Interstellar is made for your phone. It uses your camera, compass and motion sensors to label the real sky — planets, stars, constellations, deep-sky objects and satellites, live.</p>
+    <p class="dk-lead">Interstellar Lens is made for your phone. It uses your camera, compass and motion sensors to label the real sky — planets, stars, constellations, deep-sky objects and satellites, live.</p>
     <div class="qr" aria-label="QR code for rebecca0206.github.io/interstellar"></div>
     <ol class="dk-steps">
       <li>Open your phone's camera and scan the code.</li>
@@ -117,6 +118,7 @@
       <li>Hold your phone up to the sky. On iPhone, Share → <b>Add to Home Screen</b> to install.</li>
     </ol>
     <a class="dk-url" href="https://rebecca0206.github.io/interstellar/">rebecca0206.github.io/interstellar</a>
+    <p class="dk-legal">Interstellar Lens is an independent astronomy app, not affiliated with any film or studio.</p>
   </div>
 </section>
 <script src="vendor/qrcode.js"></script>
