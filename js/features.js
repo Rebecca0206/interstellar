@@ -112,7 +112,7 @@ async function shareShot() {
     g.font = `600 ${14 * S.dpr}px ${FONT}`; g.fillStyle = 'rgba(220,230,255,.85)'; g.fillText(`Interstellar Lens · ${S.locName} · ${now().toLocaleString()}`, 14 * S.dpr, c.height - 16 * S.dpr);
     if (S.night) { g.globalCompositeOperation = 'multiply'; g.fillStyle = '#ff1a00'; g.fillRect(0, 0, c.width, c.height); }
     const blob = await new Promise(r => c.toBlob(r, 'image/png')), file = new File([blob], 'interstellar-sky.png', { type: 'image/png' });
-    if (navigator.canShare && navigator.canShare({ files: [file] })) await navigator.share({ files: [file], title: 'My sky — Interstellar Lens' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) await navigator.share({ files: [file], title: 'My sky — Interstellar Lens', text: 'My sky tonight with Interstellar Lens · leafactivity.com/interstellar' });
     else { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'interstellar-sky.png'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); toast('Screenshot saved.'); }
     haptic(20);
   } catch (e) { if (!e || e.name !== 'AbortError') toast('Could not share the screenshot.'); }

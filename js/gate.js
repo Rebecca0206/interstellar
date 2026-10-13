@@ -10,7 +10,7 @@
   if (window.IS_DESK) document.documentElement.classList.add('desk');
 })();
 function buildDeskLanding() {
-  var URL_ = 'https://rebecca0206.github.io/interstellar/';
+  var URL_ = 'https://leafactivity.com/interstellar/';
   var el = document.getElementById('desk'); if (!el) return;
   var qr = qrcode(0, 'M'); qr.addData(URL_); qr.make();
   el.querySelector('.qr').innerHTML = qr.createSvgTag({ cellSize: 8, margin: 2, scalable: true });
