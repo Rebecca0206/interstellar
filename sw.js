@@ -1,20 +1,9 @@
-// Interstellar Lens service worker: offline app shell + data; TLE snapshots network-first.
-const V = 'interstellar-v6';
-const SHELL = ['./', 'index.html', 'styles.css', 'manifest.webmanifest', 'js/gate.js', 'vendor/qrcode.js',
-  'js/core.js', 'js/state.js', 'js/render.js', 'js/ui-sheets.js', 'js/features.js', 'js/app.js',
-  'data/sky-data.js', 'data/facts.js',
-  'vendor/astronomy.browser.min.js', 'vendor/satellite.min.js', 'vendor/magvar.min.js',
-  'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png',
-  'data/tle/stations.tle', 'data/tle/visual.tle', 'data/tle/gps-ops.tle', 'data/tle/weather.tle', 'data/tle/science.tle', 'data/tle/starlink.tle'];
-self.addEventListener('install', e => { e.waitUntil(caches.open(V).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
-self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== V).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
-self.addEventListener('fetch', e => {
-  const u = new URL(e.request.url);
-  if (u.origin !== location.origin || e.request.method !== 'GET') return; // CelesTrak requests go straight to the network
-  if (u.pathname.includes('/data/tle/')) {
-    e.respondWith(fetch(e.request).then(r => { const cp = r.clone(); caches.open(V).then(c => c.put(e.request, cp)); return r; }).catch(() => caches.match(e.request)));
-    return;
-  }
-  e.respondWith(caches.match(e.request, { ignoreSearch: true }).then(r => r || fetch(e.request).then(res => { if (res.ok) { const cp = res.clone(); caches.open(V).then(c => c.put(e.request, cp)); } return res; })));
-});
-self.addEventListener('notificationclick', e => { e.notification.close(); e.waitUntil(self.clients.matchAll({ type: 'window' }).then(cs => cs.length ? cs[0].focus() : self.clients.openWindow('./'))); });
+// Retired: Interstellar Lens moved to https://leafactivity.com/interstellar/.
+// This replacement worker clears the old offline cache, unregisters itself and sends open pages to the new home.
+self.addEventListener('install', () => self.skipWaiting());
+self.addEventListener('activate', e => e.waitUntil((async () => {
+  for (const k of await caches.keys()) await caches.delete(k);
+  await self.registration.unregister();
+  for (const c of await self.clients.matchAll({ type: 'window' })) { try { c.navigate('https://leafactivity.com/interstellar/'); } catch (x) { } }
+})()));
+self.addEventListener('fetch', () => { });
